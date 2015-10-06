@@ -1,0 +1,22 @@
+
+{% set server = salt['grains.filter_by']({
+    'Debian': {
+        'pkgs': ['heat-api', 'heat-api-cfn', 'heat-api-cloudwatch', 'heat-engine', 'heat-common','python-heatclient'],
+        'services': ['heat-api', 'heat-api-cfn', 'heat-api-cloudwatch', 'heat-engine'],
+        'notification': False
+    },
+    'RedHat': {
+        'pkgs': ['openstack-heat-api', 'openstack-heat-api-cfn', 'openstack-heat-api-cloudwatch', 'openstack-heat-engine', 'openstack-heat-common'],
+        'services': ['openstack-heat-api', 'openstack-heat-api-cfn', 'openstack-heat-api-cloudwatch', 'openstack-heat-engine'],
+        'notification': False
+    },
+}, merge=salt['pillar.get']('heat:server')) %}
+
+{% set client = salt['grains.filter_by']({
+    'Debian': {
+        'pkgs': ['python-heatclient'],
+    },
+    'RedHat': {
+        'pkgs': ['python-heatclient'],
+    },
+}, merge=salt['pillar.get']('heat:client')) %}

@@ -1,0 +1,45 @@
+applications:
+- heat
+parameters:
+  heat:
+    server:
+      enabled: true
+      version: ${_param:heat_version}
+      bind:
+        api_cfn:
+          address: 0.0.0.0
+        api_cloudwatch:
+          address: 0.0.0.0
+        api:
+          address: ${_param:single_address}
+      database:
+        engine: mysql
+        host: ${_param:single_address}
+        port: 3306
+        name: heat
+        user: heat
+        password: ${_param:mysql_heat_password}
+      metadata:
+        host: ${_param:single_address}
+        port: 8000
+      waitcondition:
+        host: ${_param:single_address}
+        port: 8000
+      watch:
+        host: ${_param:single_address}
+        port: 8003
+      identity:
+        engine: keystone
+        host: ${_param:single_address}
+        port: 35357
+        tenant: service
+        user: heat
+        password: ${_param:keystone_heat_password}
+      message_queue:
+        engine: rabbitmq
+        host: ${_param:single_address}
+        port: 5672
+        user: openstack
+        password: ${_param:rabbitmq_openstack_password}
+        virtual_host: '/openstack'
+        ha_queues: true
