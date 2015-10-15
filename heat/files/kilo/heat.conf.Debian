@@ -903,3 +903,18 @@ auth_uri=http://{{ server.identity.host }}:5000/v2.0
 #allowed_auth_uris=
 
 keystone_ec2_uri=http://{{ server.identity.host }}:5000/v2.0/ec2tokens
+
+{%- if pillar.get('opencontrail', {}).get('client', {}).get('enabled', False) %}
+
+{%- from "opencontrail/map.jinja" import client with context %}
+
+[clients_contrail]
+
+user={{ client.identity.user }}
+password={{ client.identity.password }}
+tenant={{ client.identity.tenant }}
+auth_host_ip={{ client.identity.host }}
+api_server={{ client.api.host }}
+api_port={{ client.api.port }}
+
+{%- endif %}
