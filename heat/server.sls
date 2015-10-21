@@ -19,7 +19,7 @@ heat_server_packages:
   - require:
     - pkg: heat_server_packages
 
-{%- if server.version == 'kilo' %}
+{%- if server.version != 'juno' %}
 
 heat_keystone_setup:
   cmd.run:
