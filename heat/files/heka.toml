@@ -1,0 +1,13 @@
+{%- if pillar.heat.server is defined %}
+[logstreamer_heat]
+type = "LogstreamerInput"
+log_directory = "/var/log/heat"
+file_match = 'heat-engine\.log\.?(?P<Index>\d+)?(.gz)?'
+priority = ["^Index"]
+decoder = "heat"
+
+[heat]
+type = "SandboxDecoder"
+filename = "lua_modules/decoders/openstack.lua"
+module_directory = "/usr/share/heka/lua_modules;/usr/share/heka/lua_modules/common"
+{% endif %}
