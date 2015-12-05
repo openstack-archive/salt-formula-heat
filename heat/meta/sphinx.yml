@@ -1,0 +1,14 @@
+doc:
+  name: Heat
+  description: Heat implements an orchestration engine to launch multiple composite cloud applications based on templates in the form of text files that can be treated like code.
+  role:
+  {%- if pillar.heat.server is defined %}
+    server:
+      name: server
+      param: {}
+  {%- endif %}
+  {%- if pillar.heat.client is defined %}
+    client:
+      name: client
+      param: {}
+  {%- endif %}
