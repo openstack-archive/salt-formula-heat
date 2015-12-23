@@ -19,6 +19,15 @@ heat_server_packages:
   - require:
     - pkg: heat_server_packages
 
+heat_client_roles:
+  keystone.role_present:
+  - names:
+    - heat_stack_owner
+    - heat_stack_user
+  - require:
+    - pkg: heat_server_packages
+
+
 {%- if server.version != 'juno' %}
 
 heat_keystone_setup:
