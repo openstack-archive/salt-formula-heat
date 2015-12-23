@@ -27,7 +27,6 @@ heat_client_roles:
   - require:
     - pkg: heat_server_packages
 
-
 {%- if server.version != 'juno' %}
 
 heat_keystone_setup:
