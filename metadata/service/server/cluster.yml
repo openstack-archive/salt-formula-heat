@@ -3,6 +3,10 @@ applications:
 parameters:
   heat:
     server:
+      stack_domain_admin:
+        name: heat_domain_admin
+        password: ${_param:heat_domain_admin_password}
+        domain: heat
       enabled: true
       version: ${_param:heat_version}
       bind:
