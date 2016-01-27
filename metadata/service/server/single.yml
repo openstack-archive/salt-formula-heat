@@ -1,5 +1,7 @@
 applications:
 - heat
+classes:
+- service.heat.support
 parameters:
   heat:
     server:
