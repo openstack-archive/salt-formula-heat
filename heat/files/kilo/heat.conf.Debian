@@ -5,6 +5,8 @@
 # From oslo.log
 #
 
+region_name_for_services={{ server.region }}
+
 # Print debugging output (set logging level to DEBUG instead of default WARNING
 # level). (boolean value)
 #debug = false

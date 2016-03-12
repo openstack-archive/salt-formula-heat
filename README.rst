@@ -16,6 +16,7 @@ Single Heat services on the controller node
       server:
         enabled: true
         version: icehouse
+        region: RegionOne
         bind:
           metadata:
             address: 10.0.106.10

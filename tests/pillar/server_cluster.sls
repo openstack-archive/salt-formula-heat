@@ -1,6 +1,7 @@
 heat:
   server:
     enabled: true
+    region: RegionOne
     version: liberty
     stack_domain_admin:
       name: heat_domain_admin
