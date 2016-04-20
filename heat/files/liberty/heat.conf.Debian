@@ -783,17 +783,17 @@ admin_tenant_name = {{ server.identity.tenant }}
 # notification. (floating point value)
 # Deprecated group/name - [DEFAULT]/kombu_reconnect_delay
 #kombu_reconnect_delay = 1.0
-
-# The RabbitMQ broker address where a single node is used. (string value)
-# Deprecated group/name - [DEFAULT]/rabbit_host
+{%- if server.message_queue.members is defined %}
+rabbit_hosts = {% for member in server.message_queue.members -%}
+                   {{ member.host }}:{{ member.get('port', 5672) }}
+                   {%- if not loop.last -%},{%- endif -%}
+               {%- endfor -%}
+{%- else %}
 rabbit_host = {{ server.message_queue.host }}
-
-# The RabbitMQ broker port where a single node is used.
-# (integer value)
 rabbit_port = {{ server.message_queue.port }}
+{%- endif %}
 
-# RabbitMQ HA cluster host:port pairs. (list value)
-#rabbit_hosts=$rabbit_host:$rabbit_port
+
 
 # Connect over SSL for RabbitMQ. (boolean value)
 #rabbit_use_ssl=false

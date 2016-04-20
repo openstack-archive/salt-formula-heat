@@ -95,6 +95,27 @@ Ceilometer notification
         version: icehouse
         notification: true
 
+
+Client-side RabbitMQ HA setup
+
+.. code-block:: yaml
+
+    heat:
+      server:
+        ....
+        message_queue:
+          engine: rabbitmq
+          members:
+            - host: 10.0.16.1
+            - host: 10.0.16.2
+            - host: 10.0.16.3
+          user: openstack
+          password: pwd
+          virtual_host: '/openstack'
+        ....
+
+
+
 Usage
 =====
 
