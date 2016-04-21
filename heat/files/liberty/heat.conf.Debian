@@ -822,11 +822,6 @@ rabbit_virtual_host = {{ server.message_queue.virtual_host }}
 # (infinite retry count). (integer value)
 #rabbit_max_retries=0
 
-# Use HA queues in RabbitMQ (x-ha-policy: all). If you change
-# this option, you must wipe the RabbitMQ database. (boolean
-# value)
-rabbit_ha_queues={{ server.message_queue.ha_queues }}
-
 #rabbit_host = localhost
 
 # The RabbitMQ broker port where a single node is used. (integer value)
