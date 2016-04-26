@@ -1,0 +1,16 @@
+orchestrate:
+  server:
+    priority: 700
+    args:
+      - batch: 1
+      - require:
+        - salt: keystone.server
+  control:
+    priority: 710
+    args:
+      - batch: 1
+      - require:
+        - salt: heat.server
+  client:
+    priority: 720
+
