@@ -18,8 +18,8 @@ check:
     subscribers:
     - local-heat-server
   remote_heat_stack_create:
-    command: "PATH=$PATH:/usr/local/bin check_heat-stack.py --auth_url http://:::openstack.host::::35357/v2.0/  --username :::openstack.user::: --password :::openstack.password::: --tenant :::openstack.tenant::: --template check_heat-stack.hot"
-    interval: 300
+    command: "PATH=$PATH:/usr/local/bin check_heat-stack.py --auth_url http://:::openstack.host::::35357/v2.0/  --username :::openstack.user::: --password :::openstack.password::: --tenant :::openstack.tenant::: --template /usr/local/bin/check_heat-stack.hot"
+    interval: 600
     occurrences: 1
     subscribers:
     - remote-network
