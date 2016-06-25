@@ -1,7 +1,7 @@
 
 {% set server = salt['grains.filter_by']({
     'Debian': {
-        'pkgs': ['heat-api', 'heat-api-cfn', 'heat-api-cloudwatch', 'heat-engine', 'heat-common','python-heatclient'],
+        'pkgs': ['heat-api', 'heat-api-cfn', 'heat-api-cloudwatch', 'heat-engine', 'heat-common','python-heatclient', 'gettext-base'],
         'services': ['heat-api', 'heat-api-cfn', 'heat-api-cloudwatch', 'heat-engine'],
         'notification': False
     },

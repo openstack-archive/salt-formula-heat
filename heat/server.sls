@@ -19,6 +19,26 @@ heat_server_packages:
   - require:
     - pkg: heat_server_packages
 
+{%- if grains.get('virtual_subtype', None) == "Docker" %}
+
+heat_entrypoint:
+  file.managed:
+  - name: /entrypoint.sh
+  - template: jinja
+  - source: salt://heat/files/entrypoint.sh
+  - mode: 755
+
+keystonercv3:
+  file.managed:
+  - name: /root/keystonercv3
+  - template: jinja
+  - source: salt://heat/files/keystonercv3
+  - mode: 755
+
+{%- endif %}
+
+{%- if not grains.get('virtual_subtype', None) == "Docker" %}
+
 heat_client_roles:
   keystone.role_present:
   - names:
@@ -40,6 +60,10 @@ heat_keystone_setup:
     - cmd: heat_syncdb
 
 {%- endif %}
+
+{%- endif %}
+
+{%- if not grains.get('noservices', False) %}
 
 heat_syncdb:
   cmd.run:
@@ -66,5 +90,7 @@ heat_server_services:
   - watch:
     - file: /etc/heat/heat.conf
     - file: /etc/heat/api-paste.ini
+
+{%- endif %}
 
 {%- endif %}

@@ -1,0 +1,9 @@
+{%- from "heat/map.jinja" import server with context -%}
+export OS_IDENTITY_API_VERSION=3
+export OS_AUTH_URL=http://{{ server.identity.host }}:{{ server.identity.port }}/v3
+export OS_PROJECT_DOMAIN_NAME=default
+export OS_USER_DOMAIN_NAME=default
+export OS_PROJECT_NAME={{ server.identity.admin_tenant }}
+export OS_TENANT_NAME={{ server.identity.admin_tenant }}
+export OS_USERNAME={{ server.identity.admin_user }}
+export OS_PASSWORD={{ server.identity.admin_password }}
