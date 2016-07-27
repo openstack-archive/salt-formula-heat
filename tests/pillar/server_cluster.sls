@@ -37,6 +37,9 @@ heat:
       tenant: service
       user: heat
       password: password
+      admin_tenant: admin
+      admin_user: admin
+      admin_password: admin
     message_queue:
       engine: rabbitmq
       members:
