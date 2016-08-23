@@ -27,6 +27,12 @@ verbose = true
 # Please use logging_context_format_string and logging_default_format_string
 # instead. (string value)
 #log_format = <None>
+
+# List of directories to search for plug-ins. (list value)
+{%- if server.get('dir', {}).plugins is defined %}
+plugin_dirs={{ server.dir.plugins|join(",") }}
+{%- endif %}
+
 heat_metadata_server_url=http://{{ server.metadata.host }}:{{ server.metadata.port }}
 
 # URL of the Heat waitcondition server. (string value)

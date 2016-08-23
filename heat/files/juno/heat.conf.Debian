@@ -27,7 +27,9 @@ sql_connection = {{ server.database.engine }}://{{ server.database.user }}:{{ se
 #instance_driver=heat.engine.nova
 
 # List of directories to search for plug-ins. (list value)
-#plugin_dirs=/usr/lib64/heat,/usr/lib/heat
+{%- if server.get('dir', {}).plugins is defined %}
+plugin_dirs={{ server.dir.plugins|join(",") }}
+{%- endif %}
 
 # The directory to search for environment files. (string
 # value)
