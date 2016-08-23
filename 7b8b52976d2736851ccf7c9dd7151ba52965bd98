@@ -1,0 +1,8 @@
+Code-Review+2: Filip Pytloun <filip@pytloun.cz>
+Workflow+1: Filip Pytloun <filip@pytloun.cz>
+Verified+2: Jenkins
+Submitted-by: Jenkins
+Submitted-at: Tue, 23 Aug 2016 12:21:25 +0000
+Reviewed-on: https://review.openstack.org/359082
+Project: openstack/salt-formula-heat
+Branch: refs/heads/master
