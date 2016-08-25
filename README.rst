@@ -121,6 +121,20 @@ Client-side RabbitMQ HA setup
         ....
 
 
+Change number or worker nodes
+
+.. code-block:: yaml
+
+    heat:
+      server:
+        enabled: true
+        num_engine_workers: 4
+        default_workers: 4
+        api_workers: 4
+        cfn_workers: 4
+        cloudwatch_workers: 4
+
+
 
 Usage
 =====

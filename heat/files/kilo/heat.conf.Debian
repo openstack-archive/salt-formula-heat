@@ -59,7 +59,11 @@ log_file=/var/log/heat/heat.log
 # will change in J to honor RFC5424. (boolean value)
 #use_syslog = false
 
-workers=4
+# Number of heat-engine processes to fork and run. (integer
+# # value)
+num_engine_workers={{ server.get('num_engine_workers', '4') }}
+
+workers={{ server.get('default_workers', '4') }}
 
 {%- if server.stack_domain_admin is defined %}
 
@@ -221,7 +225,7 @@ bind_host={{ server.bind.api.address }}
 #key_file=<None>
 
 # Number of workers for Heat service. (integer value)
-#workers=0
+workers={{ server.get('api_workers', '4') }}
 
 # Maximum line size of message headers to be accepted.
 # max_header_line may need to be increased when using large
@@ -256,7 +260,7 @@ bind_host={{ server.bind.api_cfn.address }}
 #key_file=<None>
 
 # Number of workers for Heat service. (integer value)
-#workers=0
+workers={{ server.get('cfn_workers', '4') }}
 
 # Maximum line size of message headers to be accepted.
 # max_header_line may need to be increased when using large
@@ -291,7 +295,7 @@ bind_host={{ server.bind.api_cloudwatch.address }}
 #key_file=<None>
 
 # Number of workers for Heat service. (integer value)
-#workers=0
+workers={{ server.get('cloudwatch_workers', '4') }}
 
 # Maximum line size of message headers to be accepted.
 # max_header_line may need to be increased when using large

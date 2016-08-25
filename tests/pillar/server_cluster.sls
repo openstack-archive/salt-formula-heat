@@ -3,6 +3,11 @@ heat:
     enabled: true
     region: RegionOne
     version: liberty
+    num_engine_workers: 4
+    default_workers: 4
+    api_workers: 4
+    cfn_workers: 4
+    cloudwatch_workers: 4
     stack_domain_admin:
       name: heat_domain_admin
       password: password
