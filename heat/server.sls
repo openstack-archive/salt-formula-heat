@@ -44,6 +44,10 @@ heat_client_roles:
   - names:
     - heat_stack_owner
     - heat_stack_user
+  - connection_user: {{ server.identity.user }}
+  - connection_password: {{ server.identity.password }}
+  - connection_tenant: {{ server.identity.tenant }}
+  - connection_auth_url: 'http://{{ server.identity.host }}:{{ server.identity.port }}/v2.0/'
   - require:
     - pkg: heat_server_packages
 
