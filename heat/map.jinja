@@ -10,7 +10,7 @@
         'services': ['openstack-heat-api', 'openstack-heat-api-cfn', 'openstack-heat-api-cloudwatch', 'openstack-heat-engine'],
         'notification': False
     },
-}, merge=salt['pillar.get']('heat:server')) %}
+}, merge=pillar.heat.get('server', {})) %}
 
 {% set client = salt['grains.filter_by']({
     'Debian': {
@@ -19,4 +19,4 @@
     'RedHat': {
         'pkgs': ['python-heatclient'],
     },
-}, merge=salt['pillar.get']('heat:client')) %}
+}, merge=pillar.heat.get('client', {})) %}

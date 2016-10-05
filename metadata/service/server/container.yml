@@ -1,0 +1,54 @@
+parameters:
+  kubernetes:
+    control:
+      configmap:
+        heat-server:
+          grains:
+            os_family: Debian
+          pillar:
+            heat:
+              server:
+                stack_domain_admin:
+                  name: heat_domain_admin
+                  password: ${_param:heat_domain_admin_password}
+                  domain: heat
+                enabled: true
+                region: RegionOne
+                version: ${_param:heat_version}
+                bind:
+                  api_cfn:
+                    address: 0.0.0.0
+                  api_cloudwatch:
+                    address: 0.0.0.0
+                  api:
+                    address: 0.0.0.0
+                database:
+                  engine: mysql
+                  host: ${_param:mysql_service_host}
+                  port: 3306
+                  name: heat
+                  user: heat
+                  password: ${_param:mysql_heat_password}
+                metadata:
+                  host: 0.0.0.0
+                  port: 8000
+                waitcondition:
+                  host: 0.0.0.0
+                  port: 8000
+                watch:
+                  host: 0.0.0.0
+                  port: 8003
+                identity:
+                  engine: keystone
+                  host: ${_param:keystone_service_host}
+                  port: 35357
+                  tenant: service
+                  user: heat
+                  password: ${_param:keystone_heat_password}
+                message_queue:
+                  engine: rabbitmq
+                  host: ${_param:rabbitmq_service_host}
+                  port: 5672
+                  user: openstack
+                  password: ${_param:rabbitmq_openstack_password}
+                  virtual_host: '/openstack'
