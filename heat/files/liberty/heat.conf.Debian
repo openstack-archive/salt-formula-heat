@@ -915,3 +915,15 @@ api_server={{ client.api.host }}
 api_port={{ client.api.port }}
 
 {%- endif %}
+
+{%- if pillar.get('salt', {}).get('client', {}).get('enabled', False) %}
+
+{%- set client = pillar.get('salt', {}).get('client', {}) %}
+
+[clients_salt]
+
+user={{ client.user }}
+password={{ client.password }}
+host={{ client.host }}
+
+{%- endif %}
