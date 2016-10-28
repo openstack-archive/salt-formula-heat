@@ -1,0 +1,19 @@
+log_collector:
+  decoder:
+    heat:
+      engine: sandbox
+      module_file: /usr/share/lma_collector/decoders/openstack_log.lua
+      module_dir: /usr/share/lma_collector/common;/usr/share/heka/lua_modules
+  splitter:
+    heat:
+      engine: token
+      delimiter: '\n'
+  input:
+    heat_log:
+      engine: logstreamer
+      log_directory: "/var/log/heat"
+      file_match: '(?P<Service>.+)\.log\.?(?P<Seq>\d*)$'
+      differentiator: ['heat', '_', 'Service']
+      priority: ["^Seq"]
+      decoder: "heat_decoder"
+      splitter: "heat_splitter"
