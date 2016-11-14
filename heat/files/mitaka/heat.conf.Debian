@@ -408,7 +408,7 @@ connection = {{ server.database.engine }}://{{ server.database.user }}:{{ server
 
 [keystone_authtoken]
 
-auth_type = password
+#auth_type = password
 auth_uri=http://{{ server.identity.host }}:5000/v2.0
 identity_uri=http://{{ server.identity.host }}:35357
 admin_user={{ server.identity.user }}
