@@ -1,0 +1,3 @@
+dashboard:
+  heat:
+    template: heat/files/grafana_influxdb.json
