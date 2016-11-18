@@ -180,6 +180,7 @@ notification_driver = oslo.messaging.notifier.Notifier
 
 # Seconds to wait for a response from a call. (integer value)
 #rpc_response_timeout = 60
+rpc_response_timeout = 600
 
 # A URL representing the messaging driver to use and its full configuration. If
 # not set, we fall back to the rpc_backend option and driver specific
@@ -195,6 +196,10 @@ rpc_backend = rabbit
 # exchange name specified in the transport_url option. (string value)
 #control_exchange = openstack
 
+max_resources_per_stack=20000
+max_json_body_size=10880000
+max_template_size=5440000
+
 [heat_api]
 
 #
@@ -203,7 +208,7 @@ rpc_backend = rabbit
 
 # Address to bind the server. Useful when selecting a
 # particular network interface. (string value)
-#bind_host = {{ server.bind.api.address }}
+bind_host = {{ server.bind.api.address }}
 
 # The port on which the server will listen. (integer value)
 #bind_port=8004
@@ -238,7 +243,7 @@ rpc_backend = rabbit
 
 # Address to bind the server. Useful when selecting a
 # particular network interface. (string value)
-#bind_host = {{ server.bind.api_cfn.address }}
+bind_host = {{ server.bind.api_cfn.address }}
 
 # The port on which the server will listen. (integer value)
 #bind_port=8000
@@ -273,7 +278,7 @@ rpc_backend = rabbit
 
 # Address to bind the server. Useful when selecting a
 # particular network interface. (string value)
-#bind_host = {{ server.bind.api_cloudwatch.address }}
+bind_host = {{ server.bind.api_cloudwatch.address }}
 
 # The port on which the server will listen. (integer value)
 #bind_port=8003
@@ -403,15 +408,27 @@ connection = {{ server.database.engine }}://{{ server.database.user }}:{{ server
 
 [keystone_authtoken]
 
-auth_type = password
-auth_uri=http://{{ server.identity.host }}:5000/v3
-auth_url=http://{{ server.identity.host }}:35357/v3
-username = {{ server.identity.user }}
-password = {{ server.identity.password }}
-project_name = {{ server.identity.tenant }}
-project_domain_name = default
-user_domain_name = default
+#auth_type = password
+auth_uri=http://{{ server.identity.host }}:5000/v2.0
+identity_uri=http://{{ server.identity.host }}:35357
+admin_user={{ server.identity.user }}
+admin_password={{ server.identity.password }}
+admin_tenant_name={{ server.identity.tenant }}
+# Commented based on Fuel 9.0 reference configs
+#auth_url=http://{{ server.identity.host }}:35357/v3
+#username = {{ server.identity.user }}
+#password = {{ server.identity.password }}
+#project_name = {{ server.identity.tenant }}
+#project_domain_name = default
+#user_domain_name = default
 {%- if server.cache is defined %}
+#memcached_servers={%- for member in server.cache.members %}{{ member.host }}:11211{% if not loop.last %},{% endif %}{%- endfor %}
+{%- endif %}
+
+{%- if server.cache is defined %}
+[cache]
+enabled=True
+backend=oslo_cache.memcache_pool
 memcached_servers={%- for member in server.cache.members %}{{ member.host }}:11211{% if not loop.last %},{% endif %}{%- endfor %}
 {%- endif %}
 
@@ -421,6 +438,8 @@ auth_url = http://{{ server.identity.host }}:35357
 username = {{ server.identity.user }}
 password = {{ server.identity.password }}
 user_domain_name = default
+project_domain_id=Default
+user_domain_id=Default
 
 [matchmaker_redis]
 
@@ -715,6 +734,9 @@ auth_uri=http://{{ server.identity.host }}:5000/v2.0
 #allowed_auth_uris=
 
 keystone_ec2_uri=http://{{ server.identity.host }}:5000/v2.0/ec2tokens
+
+[clients_keystone]
+auth_uri=http://{{ server.identity.host }}:35357
 
 {%- if pillar.get('opencontrail', {}).get('client', {}).get('enabled', False) %}
 

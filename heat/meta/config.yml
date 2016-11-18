@@ -1,0 +1,10 @@
+config:
+  {%- if pillar.heat.server is defined %}
+  {%- from "heat/map.jinja" import server with context %}
+  heat.conf:
+    source: "salt://heat/files/{{ server.version }}/heat.conf.{{ grains.os_family|default('Debian') }}"
+    template: jinja
+  api-paste.ini:
+    source: "salt://heat/files/{{ server.version }}/api-paste.ini"
+    template: jinja
+  {%- endif %}
