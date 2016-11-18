@@ -6,9 +6,9 @@ local_plugin:
     endpoint:
       heat-api:
         expected_code: 300
-        url: "http://{{ server.bind.api|replace('0.0.0.0', '127.0.0.1') }}:8004/"
+        url: "http://{{ server.bind.api.address|replace('0.0.0.0', '127.0.0.1') }}:8004/"
       heat-cfn-api:
         expected_code: 300
-        url: "http://{{ server.bind.api_cfn|replace('0.0.0.0', '127.0.0.1') }}:8000/"
+        url: "http://{{ server.bind.api_cfn.address|replace('0.0.0.0', '127.0.0.1') }}:8000/"
 {%- endif %}
 {%- endif %}
