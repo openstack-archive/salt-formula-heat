@@ -1088,7 +1088,7 @@
               "groupByTags": [],
               "measurement": "haproxy_backend_servers",
               "policy": "default",
-              "query": "SELECT last(\"value\") FROM \"haproxy_backend_servers\" WHERE \"environment_label\" =~ /^$environment$/ AND \"backend\" = 'heat-api' AND \"state\" = 'up' AND $timeFilter GROUP BY time($interval) fill(null)",
+              "query": "SELECT last(\"value\") FROM \"haproxy_backend_servers\" WHERE \"environment_label\" =~ /^$environment$/ AND \"backend\" = 'heat_api' AND \"state\" = 'up' AND $timeFilter GROUP BY time($interval) fill(null)",
               "rawQuery": false,
               "refId": "A",
               "resultFormat": "time_series",
@@ -1114,7 +1114,7 @@
                 },
                 {
                   "key": "backend",
-                  "value": "heat-api"
+                  "value": "heat_api"
                 },
                 {
                   "condition": "AND",
@@ -1197,7 +1197,7 @@
               "groupByTags": [],
               "measurement": "haproxy_backend_servers",
               "policy": "default",
-              "query": "SELECT last(\"value\") FROM \"haproxy_backend_servers\" WHERE \"environment_label\" =~ /^$environment$/ AND \"backend\" = 'heat-cfn-api' AND \"state\" = 'up' AND $timeFilter GROUP BY time($interval) fill(null)",
+              "query": "SELECT last(\"value\") FROM \"haproxy_backend_servers\" WHERE \"environment_label\" =~ /^$environment$/ AND \"backend\" = 'heat_cfn_api' AND \"state\" = 'up' AND $timeFilter GROUP BY time($interval) fill(null)",
               "rawQuery": false,
               "refId": "A",
               "resultFormat": "time_series",
@@ -1223,7 +1223,7 @@
                 },
                 {
                   "key": "backend",
-                  "value": "heat-cfn-api"
+                  "value": "heat_cfn_api"
                 },
                 {
                   "condition": "AND",
@@ -1330,7 +1330,7 @@
               "groupByTags": [],
               "measurement": "haproxy_backend_servers",
               "policy": "default",
-              "query": "SELECT last(\"value\") FROM \"haproxy_backend_servers\" WHERE \"environment_label\" =~ /^$environment$/ AND \"backend\" = 'heat-api' AND \"state\" = 'down' AND $timeFilter GROUP BY time($interval) fill(null)",
+              "query": "SELECT last(\"value\") FROM \"haproxy_backend_servers\" WHERE \"environment_label\" =~ /^$environment$/ AND \"backend\" = 'heat_api' AND \"state\" = 'down' AND $timeFilter GROUP BY time($interval) fill(null)",
               "rawQuery": false,
               "refId": "A",
               "resultFormat": "time_series",
@@ -1356,7 +1356,7 @@
                 },
                 {
                   "key": "backend",
-                  "value": "heat-api"
+                  "value": "heat_api"
                 },
                 {
                   "condition": "AND",
@@ -1439,7 +1439,7 @@
               "groupByTags": [],
               "measurement": "haproxy_backend_servers",
               "policy": "default",
-              "query": "SELECT last(\"value\") FROM \"haproxy_backend_servers\" WHERE \"environment_label\" =~ /^$environment$/ AND \"backend\" = 'heat-cfn-api' AND \"state\" = 'down' AND $timeFilter GROUP BY time($interval) fill(null)",
+              "query": "SELECT last(\"value\") FROM \"haproxy_backend_servers\" WHERE \"environment_label\" =~ /^$environment$/ AND \"backend\" = 'heat_cfn_api' AND \"state\" = 'down' AND $timeFilter GROUP BY time($interval) fill(null)",
               "rawQuery": false,
               "refId": "A",
               "resultFormat": "time_series",
@@ -1465,7 +1465,7 @@
                 },
                 {
                   "key": "backend",
-                  "value": "heat-cfn-api"
+                  "value": "heat_cfn_api"
                 },
                 {
                   "condition": "AND",
