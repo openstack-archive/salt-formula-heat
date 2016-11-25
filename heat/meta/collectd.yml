@@ -1,0 +1,14 @@
+{%- if pillar.heat.server is defined %}
+{%- from "heat/map.jinja" import server with context %}
+{%- if server.get('enabled', False) %}
+local_plugin:
+  collectd_check_local_endpoint:
+    endpoint:
+      heat-api:
+        expected_code: 300
+        url: "http://{{ server.bind.api.address|replace('0.0.0.0', '127.0.0.1') }}:8004/"
+      heat-cfn-api:
+        expected_code: 300
+        url: "http://{{ server.bind.api_cfn.address|replace('0.0.0.0', '127.0.0.1') }}:8000/"
+{%- endif %}
+{%- endif %}

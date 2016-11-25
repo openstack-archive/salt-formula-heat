@@ -1,0 +1,189 @@
+{%- if pillar.heat is defined and pillar.heat.server is defined %}
+log_collector:
+  decoder:
+    heat:
+      engine: sandbox
+      module_file: /usr/share/lma_collector/decoders/openstack_log.lua
+      module_dir: /usr/share/lma_collector/common;/usr/share/heka/lua_modules
+      adjust_timezone: true
+  splitter:
+    heat:
+      engine: token
+      delimiter: '\n'
+  input:
+    heat_log:
+      engine: logstreamer
+      log_directory: "/var/log"
+      file_match: 'heat/(?P<Service>.+)\.log\.?(?P<Seq>\d*)$'
+      differentiator: ['heat', '_', 'Service']
+      priority: ["^Seq"]
+      decoder: "heat_decoder"
+      splitter: "heat_splitter"
+metric_collector:
+  trigger:
+    heat_logs_error:
+      description: 'Too many errors have been detected in Heat logs'
+      severity: warning
+      no_data_policy: okay
+      rules:
+      - metric: log_messages
+        field:
+          service: heat
+          level: error
+        relational_operator: '>'
+        threshold: 0.1
+        window: 70
+        periods: 0
+        function: max
+    heat_api_local_endpoint:
+      description: 'Heat API is locally down'
+      severity: down
+      rules:
+      - metric: openstack_check_local_api
+        field:
+          service: heat-api
+        relational_operator: '=='
+        threshold: 0
+        window: 60
+        periods: 0
+        function: last
+    heat_cfn_api_local_endpoint:
+      description: 'Heat CFN API is locally down'
+      severity: down
+      rules:
+      - metric: openstack_check_local_api
+        field:
+          service: heat-cfn-api
+        relational_operator: '=='
+        threshold: 0
+        window: 60
+        periods: 0
+        function: last
+  alarm:
+    heat_logs:
+      alerting: enabled
+      triggers:
+      - heat_logs_error
+      dimension:
+        service: heat-logs
+    heat_api_endpoint:
+      alerting: enabled
+      triggers:
+      - heat_api_local_endpoint
+      dimension:
+        service: heat-api-endpoint
+    heat_cfn_api_endpoint:
+      alerting: enabled
+      triggers:
+      - heat_cfn_api_local_endpoint
+      dimension:
+        service: heat-cfn-api-endpoint
+remote_collector:
+  trigger:
+    heat_api_check_failed:
+      description: 'Endpoint check for heat-api is failed'
+      severity: down
+      rules:
+      - metric: openstack_check_api
+        field:
+          service: heat-api
+        relational_operator: '=='
+        threshold: 0
+        window: 60
+        periods: 0
+        function: last
+    heat_cfn_api_check_failed:
+      description: 'Endpoint check for heat-cfn-api is failed'
+      severity: down
+      rules:
+      - metric: openstack_check_api
+        field:
+          service: heat-cfn-api
+        relational_operator: '=='
+        threshold: 0
+        window: 60
+        periods: 0
+        function: last
+  alarm:
+    heat_api_check:
+      alerting: enabled
+      triggers:
+      - heat_api_check_failed
+      dimension:
+        service: heat-api-check
+    heat_cfn_api_check:
+      alerting: enabled
+      triggers:
+      - heat_cfn_api_check_failed
+      dimension:
+        service: heat-cfn-api-check
+aggregator:
+  alarm_cluster:
+    heat_logs:
+      policy: highest_severity
+      alerting: enabled
+      group_by: hostname
+      match:
+        service: heat-logs
+      members:
+      - heat_logs
+      dimension:
+        service: heat
+        nagios_host: 01-service-clusters
+    heat_api_endpoint:
+      policy: availability_of_members
+      alerting: enabled
+      group_by: hostname
+      match:
+        service: heat-api-endpoint
+      members:
+      - heat_api_endpoint
+      dimension:
+        service: heat
+        nagios_host: 01-service-clusters
+    heat_cfn_api_endpoint:
+      policy: availability_of_members
+      alerting: enabled
+      group_by: hostname
+      match:
+        service: heat-cfn-api-endpoint
+      members:
+      - heat_cfn_api_endpoint
+      dimension:
+        service: heat
+        nagios_host: 01-service-clusters
+    heat_api_check:
+      policy: highest_severity
+      alerting: enabled
+      match:
+        service: heat-api-check
+      members:
+      - heat_api_check
+      dimension:
+        service: heat
+        nagios_host: 01-service-clusters
+    heat_cfn_api_check:
+      policy: highest_severity
+      alerting: enabled
+      match:
+        service: heat-cfn-api-check
+      members:
+      - heat_cfn_api_check
+      dimension:
+        service: heat
+        nagios_host: 01-service-clusters
+    heat:
+      policy: highest_severity
+      alerting: enabled_with_notification
+      match:
+        service: heat
+      members:
+      - heat_logs
+      - heat_api_endpoint
+      - heat_cfn_api_endpoint
+      - heat_api_check
+      - heat_cfn_api_check
+      dimension:
+        cluster_name: heat
+        nagios_host: 00-top-clusters
+{%- endif %}
