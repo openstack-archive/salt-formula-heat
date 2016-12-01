@@ -172,7 +172,9 @@ stack_user_domain_name = heat_user_domain
 
 # Driver or drivers to handle sending notifications. (multi valued)
 #notification_driver =
-notification_driver = oslo.messaging.notifier.Notifier
+{%- if server.notification %}
+notification_driver = messagingv2
+{% endif %}
 
 # AMQP topic used for OpenStack notifications. (list value)
 # Deprecated group/name - [rpc_notifier2]/topics
