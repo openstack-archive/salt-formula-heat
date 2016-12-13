@@ -178,6 +178,12 @@ notification_driver = oslo.messaging.notifier.Notifier
 # Deprecated group/name - [rpc_notifier2]/topics
 #notification_topics = notifications
 
+{%- if server.notification_topics %}
+{%- for topic in server.notification_topics %}
+notification_topics = {{ topic }}
+{%- endfor %}
+{%- endif %}
+
 # Seconds to wait for a response from a call. (integer value)
 #rpc_response_timeout = 60
 rpc_response_timeout = 600
