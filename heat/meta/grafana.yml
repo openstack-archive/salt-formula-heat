@@ -2,3 +2,18 @@ dashboard:
   heat:
     format: json
     template: heat/files/grafana_dashboards/heat_influxdb.json
+  Main:
+    row:
+      ost-control-plane:
+        title: OpenStack Control Plane
+        panel:
+          heat:
+            title: Heat
+            links:
+            - dashboard: Heat
+              title: Heat
+              type: dashboard
+            target:
+              cluster_status:
+                rawQuery: true
+                query: SELECT last(value) FROM cluster_status WHERE cluster_name = 'heat' AND environment_label = '$environment' AND $timeFilter GROUP BY time($interval) fill(null)
