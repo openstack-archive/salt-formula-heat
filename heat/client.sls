@@ -12,16 +12,20 @@ heat_client_home:
   file.directory:
   - name: /srv/heat
 
-{%- if client.source.engine == 'git' %}
+{%- for tenant_name, tenant in client.tenant.iteritems() %}
 
-{{ client.source.address }}:
+{%- if tenant.source.engine == 'git' %}
+
+{{ tenant.source.address }}:
   git.latest:
-  - target: /srv/heat/env
-  - rev: {{ client.source.revision }}
+  - target: /srv/heat/env/{{ tenant_name }}
+  - rev: {{ tenant.source.revision }}
   - require:
     - pkg: git_packages
     - file: /srv/heat
 
 {%- endif %}
+
+{%- endfor %}
 
 {%- endif %}
