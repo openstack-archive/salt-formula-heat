@@ -1,4 +1,0 @@
-dashboard:
-  heat:
-    format: json
-    template: heat/files/grafana_dashboards/heat_influxdb.json
